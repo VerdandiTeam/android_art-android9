@@ -21,6 +21,7 @@
 
 #ifdef ART_TARGET_ANDROID
 #include <bionic_tls.h>  // Access to our own TLS slot.
+#include <__get_tls_internal.h>
 #endif
 
 #include <pthread.h>
@@ -34,7 +35,7 @@ inline Thread* Thread::Current() {
     return nullptr;
   } else {
 #ifdef ART_TARGET_ANDROID
-    void* thread = __get_tls()[TLS_SLOT_ART_THREAD_SELF];
+    void* thread = __get_tls_internal()[TLS_SLOT_ART_THREAD_SELF];
 #else
     void* thread = pthread_getspecific(Thread::pthread_key_self_);
 #endif

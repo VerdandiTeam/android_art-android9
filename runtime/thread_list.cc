@@ -1487,7 +1487,7 @@ void ThreadList::Unregister(Thread* self) {
   // Clear the TLS data, so that the underlying native thread is recognizably detached.
   // (It may wish to reattach later.)
 #ifdef ART_TARGET_ANDROID
-  __get_tls()[TLS_SLOT_ART_THREAD_SELF] = nullptr;
+  __get_tls_internal()[TLS_SLOT_ART_THREAD_SELF] = nullptr;
 #else
   CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, nullptr), "detach self");
 #endif

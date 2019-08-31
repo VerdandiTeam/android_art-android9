@@ -746,7 +746,7 @@ bool Thread::Init(ThreadList* thread_list, JavaVMExt* java_vm, JNIEnvExt* jni_en
   interpreter::InitInterpreterTls(this);
 
 #ifdef ART_TARGET_ANDROID
-  __get_tls()[TLS_SLOT_ART_THREAD_SELF] = this;
+  __get_tls_internal()[TLS_SLOT_ART_THREAD_SELF] = this;
 #else
   CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, this), "attach self");
 #endif
@@ -2007,7 +2007,7 @@ void Thread::ThreadExitCallback(void* arg) {
         "going to use a pthread_key_create destructor?): " << *self;
     CHECK(is_started_);
 #ifdef ART_TARGET_ANDROID
-    __get_tls()[TLS_SLOT_ART_THREAD_SELF] = self;
+    __get_tls_internal()[TLS_SLOT_ART_THREAD_SELF] = self;
 #else
     CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, self), "reattach self");
 #endif
